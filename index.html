@@ -18,6 +18,9 @@
     button.copy-btn { margin-top: 7px; width: 100%; padding: 7px; font-size: 15px; background: #2ecc40; color: #fff; border: none; }
     .image-box { margin-top: 12px; margin-bottom: 18px; width: 120px; height: 120px; overflow: hidden; border-radius: 7px; border: 1px solid #ddd; }
     .image-box img { width: 100%; height: 100%; object-fit: cover; }
+    .toggle-row { margin-top: 2px; margin-bottom: 8px; }
+    .toggle-row input { vertical-align: middle; }
+    .toggle-row label { display: inline; vertical-align: middle; margin-top: 0; font-weight: normal; margin-left: 8px; font-size: 13px; }
     @media (max-width: 500px) {
       body { margin: 5px; }
       .selector button { font-size: 16px; }
@@ -35,12 +38,16 @@
     <textarea id="encText" rows="3" placeholder="Enter your text"></textarea>
     <label for="encPass">Password</label>
     <input type="password" id="encPass" placeholder="Enter password"/>
+    <div class="toggle-row">
+      <input type="checkbox" id="toggleEncPass" onclick="togglePassword('encPass','toggleEncPass')"/>
+      <label for="toggleEncPass">Show Password</label>
+    </div>
     <button class="action" onclick="handleEncrypt()">Encrypt</button>
     <label for="encBundle">Encrypted Bundle</label>
     <textarea id="encBundle" rows="3" readonly></textarea>
     <button class="copy-btn" onclick="copyToClipboard('encBundle')">Copy Bundle</button>
     <div class="image-box">
-      <img src="https://i.postimg.cc/vBVhb3jQ/Whats-App-Image-2025-09-23-at-5-53-19-PM.jpg" alt="Encrypt"/>
+      <img src="https://www.instagram.com/p/DJw-D6UTq9LnM8EoaSS58eKAqQYUyhMJek7HOs0/?img_index=1" alt="Encrypt"/>
     </div>
   </div>
   <div id="decryptSection" style="display:none;">
@@ -48,12 +55,16 @@
     <textarea id="decBundle" rows="3" placeholder="Paste bundle here"></textarea>
     <label for="decPass">Password</label>
     <input type="password" id="decPass" placeholder="Enter password"/>
+    <div class="toggle-row">
+      <input type="checkbox" id="toggleDecPass" onclick="togglePassword('decPass','toggleDecPass')"/>
+      <label for="toggleDecPass">Show Password</label>
+    </div>
     <button class="action" onclick="handleDecrypt()">Decrypt</button>
     <label for="decText">Decrypted Text</label>
     <textarea id="decText" rows="3" readonly></textarea>
     <button class="copy-btn" onclick="copyToClipboard('decText')">Copy Text</button>
     <div class="image-box">
-      <img src="https://i.postimg.cc/tgVWx7z1/untitled.png" alt="Decrypt"/>
+      <img src="https://www.instagram.com/p/DJw-D6UTq9LnM8EoaSS58eKAqQYUyhMJek7HOs0/?img_index=1" alt="Decrypt"/>
     </div>
   </div>
 <script>
@@ -68,6 +79,11 @@ function copyToClipboard(elementId) {
   el.select();
   el.setSelectionRange(0, 99999);
   document.execCommand("copy");
+}
+function togglePassword(inputId, toggleId) {
+  var input = document.getElementById(inputId);
+  var toggle = document.getElementById(toggleId);
+  input.type = toggle.checked ? 'text' : 'password';
 }
 </script>
 </body>
