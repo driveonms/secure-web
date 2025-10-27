@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Encrypt/Decrypt (AES-256)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="crypto-js.min.js"></script>
+  <script src="aes.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 18px; max-width: 600px; }
+    .selector { margin-bottom: 18px; display: flex; }
+    .selector button { flex: 1; padding: 10px; font-size: 18px; }
+    .active { background: #0074d9; color: #fff; }
+    label { display: block; margin-top: 14px; font-weight: bold; }
+    textarea, input[type="password"], input[type="text"] {
+      width: 100%; margin-top: 7px; padding: 10px; font-size: 17px; box-sizing: border-box;
+    }
+    button.action { margin-top: 14px; width: 100%; padding: 12px; font-size: 18px; background: #0074d9; color: #fff; border: none; }
+    @media (max-width: 500px) {
+      body { margin: 5px; }
+      .selector button { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="selector">
+    <button id="btnEncrypt" class="active" onclick="showMode('encrypt')">Encrypt</button>
+    <button id="btnDecrypt" onclick="showMode('decrypt')">Decrypt</button>
+  </div>
+  <div id="encryptSection">
+    <label for="encText">Text to Encrypt</label>
+    <textarea id="encText" rows="3" placeholder="Enter your text"></textarea>
+    <label for="encPass">Password</label>
+    <input type="password" id="encPass" placeholder="Enter password"/>
+    <button class="action" onclick="handleEncrypt()">Encrypt</button>
+    <label for="encBundle">Encrypted Bundle</label>
+    <textarea id="encBundle" rows="3" readonly></textarea>
+  </div>
+  <div id="decryptSection" style="display:none;">
+    <label for="decBundle">Paste Encrypted Bundle</label>
+    <textarea id="decBundle" rows="3" placeholder="Paste bundle here"></textarea>
+    <label for="decPass">Password</label>
+    <input type="password" id="decPass" placeholder="Enter password"/>
+    <button class="action" onclick="handleDecrypt()">Decrypt</button>
+    <label for="decText">Decrypted Text</label>
+    <textarea id="decText" rows="3" readonly></textarea>
+  </div>
+<script>
+function showMode(mode) {
+  document.getElementById('encryptSection').style.display = mode === 'encrypt' ? 'block' : 'none';
+  document.getElementById('decryptSection').style.display = mode === 'decrypt' ? 'block' : 'none';
+  document.getElementById('btnEncrypt').className = mode === 'encrypt' ? 'active' : '';
+  document.getElementById('btnDecrypt').className = mode === 'decrypt' ? 'active' : '';
+}
+</script>
+</body>
+</html>
