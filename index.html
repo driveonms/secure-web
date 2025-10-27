@@ -15,9 +15,13 @@
       width: 100%; margin-top: 7px; padding: 10px; font-size: 17px; box-sizing: border-box;
     }
     button.action { margin-top: 14px; width: 100%; padding: 12px; font-size: 18px; background: #0074d9; color: #fff; border: none; }
+    button.copy-btn { margin-top: 7px; width: 100%; padding: 7px; font-size: 15px; background: #2ecc40; color: #fff; border: none; }
+    .image-box { margin-top: 12px; margin-bottom: 18px; width: 120px; height: 120px; overflow: hidden; border-radius: 7px; border: 1px solid #ddd; }
+    .image-box img { width: 100%; height: 100%; object-fit: cover; }
     @media (max-width: 500px) {
       body { margin: 5px; }
       .selector button { font-size: 16px; }
+      .image-box { width: 90px; height: 90px; }
     }
   </style>
 </head>
@@ -34,6 +38,10 @@
     <button class="action" onclick="handleEncrypt()">Encrypt</button>
     <label for="encBundle">Encrypted Bundle</label>
     <textarea id="encBundle" rows="3" readonly></textarea>
+    <button class="copy-btn" onclick="copyToClipboard('encBundle')">Copy Bundle</button>
+    <div class="image-box">
+      <img src="https://i.postimg.cc/vBVhb3jQ/Whats-App-Image-2025-09-23-at-5-53-19-PM.jpg" alt="Encrypt"/>
+    </div>
   </div>
   <div id="decryptSection" style="display:none;">
     <label for="decBundle">Paste Encrypted Bundle</label>
@@ -43,6 +51,10 @@
     <button class="action" onclick="handleDecrypt()">Decrypt</button>
     <label for="decText">Decrypted Text</label>
     <textarea id="decText" rows="3" readonly></textarea>
+    <button class="copy-btn" onclick="copyToClipboard('decText')">Copy Text</button>
+    <div class="image-box">
+      <img src="https://i.postimg.cc/tgVWx7z1/untitled.png" alt="Decrypt"/>
+    </div>
   </div>
 <script>
 function showMode(mode) {
@@ -50,6 +62,12 @@ function showMode(mode) {
   document.getElementById('decryptSection').style.display = mode === 'decrypt' ? 'block' : 'none';
   document.getElementById('btnEncrypt').className = mode === 'encrypt' ? 'active' : '';
   document.getElementById('btnDecrypt').className = mode === 'decrypt' ? 'active' : '';
+}
+function copyToClipboard(elementId) {
+  var el = document.getElementById(elementId);
+  el.select();
+  el.setSelectionRange(0, 99999);
+  document.execCommand("copy");
 }
 </script>
 </body>
