@@ -6,65 +6,226 @@
   <script src="crypto-js.min.js"></script>
   <script src="aes.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 18px; max-width: 600px; }
-    .selector { margin-bottom: 18px; display: flex; }
-    .selector button { flex: 1; padding: 10px; font-size: 18px; }
-    .active { background: #0074d9; color: #fff; }
-    label { display: block; margin-top: 14px; font-weight: bold; }
-    textarea, input[type="password"], input[type="text"] {
-      width: 100%; margin-top: 7px; padding: 10px; font-size: 17px; box-sizing: border-box;
+    /* Dark Theme */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #ddd;
+      font-family: Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    button.action { margin-top: 14px; width: 100%; padding: 12px; font-size: 18px; background: #0074d9; color: #fff; border: none; }
-    button.copy-btn { margin-top: 7px; width: 100%; padding: 7px; font-size: 15px; background: #2ecc40; color: #fff; border: none; }
-    .image-box { margin-top: 12px; margin-bottom: 18px; width: 120px; height: 120px; overflow: hidden; border-radius: 7px; border: 1px solid #ddd; }
-    .image-box img { width: 100%; height: 100%; object-fit: cover; }
-    .toggle-row { margin-top: 2px; margin-bottom: 8px; }
-    .toggle-row input { vertical-align: middle; }
-    .toggle-row label { display: inline; vertical-align: middle; margin-top: 0; font-weight: normal; margin-left: 8px; font-size: 13px; }
-    @media (max-width: 500px) {
-      body { margin: 5px; }
-      .selector button { font-size: 16px; }
-      .image-box { width: 90px; height: 90px; }
+    a {
+      color: #64b5f6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .center-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 10px 0 30px 0;
+    }
+    .main-card {
+      background: #222;
+      margin-top: 32px;
+      padding: 22px 18px 18px 18px;
+      max-width: 600px;
+      width: 95%;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.7);
+      display: flex;
+      flex-direction: column;
+    }
+    .selector {
+      margin-bottom: 18px;
+      display: flex;
+      background: #1b1b1b;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: inset 0 0 7px rgba(0,0,0,0.6);
+    }
+    .selector button {
+      flex: 1;
+      padding: 10px;
+      font-size: 18px;
+      color: #bbb;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .selector button:hover:not(.active) {
+      background-color: #333;
+      color: #eee;
+    }
+    .active {
+      background-color: #2979ff;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 0 8px #2979ff;
+    }
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+    textarea, input[type="password"], input[type="text"] {
+      width: 100%;
+      margin-top: 7px;
+      padding: 10px;
+      font-size: 17px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: none;
+      background: #333;
+      color: #eee;
+      font-family: monospace, monospace;
+      resize: vertical;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    textarea:focus, input:focus {
+      outline: none;
+      background: #444;
+      color: #fff;
+      box-shadow: 0 0 6px #2979ff;
+    }
+    button.action {
+      margin-top: 14px;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background: #2979ff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button.action:hover {
+      background: #448aff;
+    }
+    button.copy-btn {
+      margin-top: 7px;
+      width: 100%;
+      padding: 7px;
+      font-size: 15px;
+      background: #00c853;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button.copy-btn:hover {
+      background: #00e676;
+    }
+    .image-box {
+      margin-top: 16px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 350px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 0 8px rgba(20,130,255,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .image-box img {
+      width: 100%;
+      height: auto;
+      max-height: 350px;
+      object-fit: contain;
+      border-radius: 15px;
+      user-select: none;
+    }
+    .toggle-row {
+      margin-top: 6px;
+      margin-bottom: 8px;
+    }
+    .toggle-row input {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    .toggle-row label {
+      display: inline;
+      vertical-align: middle;
+      margin-top: 0;
+      font-weight: normal;
+      margin-left: 8px;
+      font-size: 14px;
+      color: #bbb;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .main-card {
+        margin-top: 16px;
+        border-radius: 10px;
+        padding: 16px 14px 16px 14px;
+      }
+      .image-box {
+        max-height: none;
+        max-width: 100vw;
+        height: auto;
+      }
+      .image-box img {
+        max-height: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="selector">
-    <button id="btnEncrypt" class="active" onclick="showMode('encrypt')">Encrypt</button>
-    <button id="btnDecrypt" onclick="showMode('decrypt')">Decrypt</button>
-  </div>
-  <div id="encryptSection">
-    <label for="encText">Text to Encrypt</label>
-    <textarea id="encText" rows="3" placeholder="Enter your text"></textarea>
-    <label for="encPass">Password</label>
-    <input type="password" id="encPass" placeholder="Enter password"/>
-    <div class="toggle-row">
-      <input type="checkbox" id="toggleEncPass" onclick="togglePassword('encPass','toggleEncPass')"/>
-      <label for="toggleEncPass">Show Password</label>
-    </div>
-    <button class="action" onclick="handleEncrypt()">Encrypt</button>
-    <label for="encBundle">Encrypted Bundle</label>
-    <textarea id="encBundle" rows="3" readonly></textarea>
-    <button class="copy-btn" onclick="copyToClipboard('encBundle')">Copy Bundle</button>
-    <div class="image-box">
-      <img src="link to image 1" alt="Encrypt"/>
-    </div>
-  </div>
-  <div id="decryptSection" style="display:none;">
-    <label for="decBundle">Paste Encrypted Bundle</label>
-    <textarea id="decBundle" rows="3" placeholder="Paste bundle here"></textarea>
-    <label for="decPass">Password</label>
-    <input type="password" id="decPass" placeholder="Enter password"/>
-    <div class="toggle-row">
-      <input type="checkbox" id="toggleDecPass" onclick="togglePassword('decPass','toggleDecPass')"/>
-      <label for="toggleDecPass">Show Password</label>
-    </div>
-    <button class="action" onclick="handleDecrypt()">Decrypt</button>
-    <label for="decText">Decrypted Text</label>
-    <textarea id="decText" rows="3" readonly></textarea>
-    <button class="copy-btn" onclick="copyToClipboard('decText')">Copy Text</button>
-    <div class="image-box">
-      <img src="link to image 2" alt="Decrypt"/>
+  <div class="center-container">
+    <div class="main-card">
+      <div class="selector">
+        <button id="btnEncrypt" class="active" onclick="showMode('encrypt')">Encrypt</button>
+        <button id="btnDecrypt" onclick="showMode('decrypt')">Decrypt</button>
+      </div>
+      <div id="encryptSection">
+        <label for="encText">Text to Encrypt</label>
+        <textarea id="encText" rows="3" placeholder="Enter your text"></textarea>
+        <label for="encPass">Password</label>
+        <input type="password" id="encPass" autocomplete="off" placeholder="Enter password"/>
+        <div class="toggle-row">
+          <input type="checkbox" id="toggleEncPass" onclick="togglePassword('encPass', 'toggleEncPass')"/>
+          <label for="toggleEncPass">Show Password</label>
+        </div>
+        <button class="action" onclick="handleEncrypt()">Encrypt</button>
+        <label for="encBundle">Encrypted Bundle</label>
+        <textarea id="encBundle" rows="3" readonly autocomplete="off"></textarea>
+        <button class="copy-btn" onclick="copyToClipboard('encBundle')">Copy Bundle</button>
+        <div class="image-box">
+          <a target="_blank" href="https://imghost.online/en/csjlWkWeG1ncTCO">
+            <img src="https://imghost.online/ib/hloycFgmac11kZY_1761719143.jpg" alt="1000174961.jpg"/>
+          </a>
+        </div>
+      </div>
+      <div id="decryptSection" style="display:none;">
+        <label for="decBundle">Paste Encrypted Bundle</label>
+        <textarea id="decBundle" rows="3" placeholder="Paste bundle here" autocomplete="off"></textarea>
+        <label for="decPass">Password</label>
+        <input type="password" id="decPass" autocomplete="off" placeholder="Enter password"/>
+        <div class="toggle-row">
+          <input type="checkbox" id="toggleDecPass" onclick="togglePassword('decPass','toggleDecPass')"/>
+          <label for="toggleDecPass">Show Password</label>
+        </div>
+        <button class="action" onclick="handleDecrypt()">Decrypt</button>
+        <label for="decText">Decrypted Text</label>
+        <textarea id="decText" rows="3" readonly autocomplete="off"></textarea>
+        <button class="copy-btn" onclick="copyToClipboard('decText')">Copy Text</button>
+        <div class="image-box">
+          <a target="_blank" href="https://imghost.online/en/3DWSIBVY7oEZ2n7">
+            <img src="https://imghost.online/ib/vPdAgaxwrxcgbLj_1761719171.png" alt="1000174962.png"/>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 <script>
@@ -85,6 +246,18 @@ function togglePassword(inputId, toggleId) {
   var toggle = document.getElementById(toggleId);
   input.type = toggle.checked ? 'text' : 'password';
 }
+function clearSensitiveData() {
+  ['encText', 'encPass', 'encBundle', 'decBundle', 'decPass', 'decText'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  if (window.sessionStorage) sessionStorage.clear();
+  if (window.localStorage) localStorage.clear();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText('');
+  }
+}
+window.onload = clearSensitiveData;
 </script>
 </body>
 </html>
